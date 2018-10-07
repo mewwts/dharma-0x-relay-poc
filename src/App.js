@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import CreateLoan from './CreateLoan.js'
+import DebtView from './DebtView.js'
+import InvestmentView from './InvestmentView.js'
+import Market from './Market.js'
+import { BrowserRouter, Link, Route } from 'react-router-dom'
+var Web3 = require('web3')
 class App extends Component {
   render() {
+    const web3 = new Web3(window.web3.currentProvider)
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <nav>
+            <Link to="/create">Create Loan</Link>
+            <Link to="/debt">Debt</Link>
+            <Link to="/investment">Investments</Link>
+            <Link to="/market">Market</Link>
+          </nav>
+          <div>
+            <Route path="/create" render={() => <CreateLoan web3={web3} />}/>
+            <Route path="/debt" render={() => <DebtView web3={web3} />}/>
+            <Route path="/investment" render={() => <InvestmentView web3={web3} />}/>
+            <Route path="/market" render={() => <Market web3={web3} />}/>
+          </div>
+        </div>
+      </BrowserRouter>
     );
   }
 }
